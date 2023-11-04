@@ -1,0 +1,109 @@
+.App {
+    color: black;
+    background-color: rgb(229, 247, 247);
+    margin: 25px 0 0 25px;
+    padding-left:10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+  }
+  
+  .galleryheader {
+    width: 90% !important;
+    background-color: white;
+    border: 1px solid #9d9b9b;
+    border-radius: 5px;
+  }
+  .image-gallery {
+    display: flex;
+    padding: 5% 5% 5% 5%;
+    margin: 10px;
+    border-radius: 5px;
+  }
+
+  /* image box design */
+  ul {
+    list-style-type: none;
+  }
+  
+  li {
+    display: inline-block;
+  }
+
+  .image-gallery li img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    border-radius: 5px;
+  }  
+
+  input[type="checkbox"][id^="cb"] {
+    display: none;
+  }
+ 
+  label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: white;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  label::before {
+    background-color: white;
+    color: white;
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    border: 1px solid grey;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 28px;
+    transition-duration: 0.4s;
+    transform: scale(0);
+  }
+  
+  label img {
+    height: 100px;
+    width: 100px;
+    transition-duration: 0.2s;
+    transform-origin: 50% 50%;
+  }
+  
+  /* checkbox design */
+  :checked+label {
+    border-color: #ddd;
+  }
+  
+  :checked+label img {
+    transform: scale(0.9);
+    box-shadow: 0 0 5px #333;
+    z-index: -1;
+  } 
+
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(143, 233, 226, 0.512);
+    top: 0;
+    left: 0;
+    transform: scale(0);
+    transition: all 0.2s 0.1s ease-in-out;
+  }
+
+  .image-gallery li:hover .overlay {
+    transform: scale(1);
+  }
+
+  

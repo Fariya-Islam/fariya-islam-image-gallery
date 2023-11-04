@@ -1,0 +1,84 @@
+* {
+  padding: 0;
+}
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-colour: #f0f7f4;
+}
+
+/* Reset margins */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: 400;
+}
+
+body {
+  line-height: 1.5;
+  font-family: "Mulish", sans-serif;
+}
+
+/* make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: 90% !important;
+  height: 100% !important;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-inline: auto;
+  padding-bottom: 5%;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  cursor: pointer;
+}
+
+.card {
+  background: var(--bg-colour);
+  box-shadow: 0 0 5px #333;
+  border-radius: 5px;
+}
+
+.card img {
+  object-fit: cover;
+}
+
+.card__info {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.card__info-title {
+  font-weight: 200;
+  font-size: 1.5rem;
+  font-family: "Libre Baskerville", serif;
+}
