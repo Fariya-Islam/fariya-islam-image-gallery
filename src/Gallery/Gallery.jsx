@@ -3,6 +3,8 @@ import { useDrag, useDrop } from "react-dnd";
 import { useBetween } from 'use-between';
 import galleryList from "./data";
 import './Gallery.css';
+import { Button } from '@mui/material';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const Card = ({ src, title, id, index, moveImage }) => {
   const ref = React.useRef(null);
@@ -61,10 +63,12 @@ const Card = ({ src, title, id, index, moveImage }) => {
 
 //  For selecting image from checkbox and change headers
   const { username, setUsername, count, setCount } = useBetween(useShareableState);
-  const handleClick = (event) => {
+  const { images, setImages, selectedRows, setSelectedRows } = useBetween(useImageGallery);
+  const handleClick = (event,props) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     if (value === true){
+      willshow = willshow + 1;
         setCount(count + 1);
           if (count === 0)
             setUsername(count+1 + ' File Selected');
@@ -72,6 +76,7 @@ const Card = ({ src, title, id, index, moveImage }) => {
             setUsername(count+1 + ' Files Selected');
     }
     else{
+      willshow = willshow - 1;
         setCount(count - 1);
           if (count === 1)
             setUsername('Gallery');
@@ -80,6 +85,19 @@ const Card = ({ src, title, id, index, moveImage }) => {
           else
             setUsername(count-1 + ' Files Selected');
     }
+
+    if (selectedRows.includes(props)) {
+      setSelectedRows(selectedRows.filter((id) => id !== props));
+    } else {
+      setSelectedRows([...selectedRows, props]);
+    }
+    const newData = images.map((row) => {
+      if (row.id === props) {
+        return { ...row};
+      }
+      return row;
+    });
+    setImages(newData);
 }
 
   return (
@@ -87,7 +105,7 @@ const Card = ({ src, title, id, index, moveImage }) => {
     <ul className="image-gallery">
       <div ref={ref} style={{ opacity }} className="card" >
         <li>
-          <input type="checkbox" onClick={(e) => handleClick(e)}  />
+          <input type="checkbox" checked={selectedRows.includes(id)} onClick={(e) => handleClick(e,id)}  />
             <label>
               <img src={src} alt={title}/>
               <div className="overlay"></div>
@@ -97,6 +115,8 @@ const Card = ({ src, title, id, index, moveImage }) => {
     </ul>
   );
 };
+
+let willshow = 0;
 
 // Sharing data between two constant 
 const useShareableState = () => {
@@ -110,10 +130,28 @@ const useShareableState = () => {
     }
   }
 
+const useImageGallery = () => {
+  const [images, setImages] = useState(galleryList);
+  const [selectedRows, setSelectedRows] = useState([]);
+  return {
+    images,setImages,
+    selectedRows,setSelectedRows
+  }
+}
+
 const Gallery = () => {
 
-    const { username, setUsername, count } = useBetween(useShareableState);
-    const [images, setImages] = useState(galleryList);
+    const { username, setUsername, count, setCount } = useBetween(useShareableState);
+    const { images, setImages, selectedRows, setSelectedRows } = useBetween(useImageGallery);
+
+    const deleteClick = () => {
+      setUsername('Gallery');
+      setCount(0);
+      willshow = 0;
+      const newData = images.filter((row) => !selectedRows.includes(row.id));
+            setImages(newData);
+            setSelectedRows([]);
+    }
 
     // For swapping image 
     const moveImage = React.useCallback((dragIndex, hoverIndex) => {
@@ -128,12 +166,21 @@ const Gallery = () => {
   return (
     <div className="App">
         <div className="galleryheader">
-            <h3 style={{textAlign: 'left', padding: '10px 10px 10px'}}>{username}</h3>
+            <h3 style={{display: 'inline-block', textAlign: 'left', padding: '10px 10px 10px'}}>{willshow === 0 ?
+             '' : <CheckBoxIcon style={{ color: "blue" , float: 'left', paddingRight: '5px'}}/>}{username}</h3>
+            <h3 style={{display: 'inline-block', float: 'right'}}>{willshow === 0 ? 
+            '':(<Button 
+                  style={{alignContent: 'right', padding: '10px 10px 10px', marginLeft:'50px', textTransform: 'none'} }
+                  color="secondary" 
+                  onClick={() => deleteClick()}
+                  >Delete Files
+              </Button>)}</h3>
         </div>
         <div className="galleryheader">
         <main>
         {React.Children.toArray(
             images.map((image, index) => (
+            <div className={index === 0? 'mainF':'mainNF'}  >
             <Card
                 src={image.img}
                 title={image.title}
@@ -142,6 +189,7 @@ const Gallery = () => {
                 selected={image.selected}
                 moveImage={moveImage}
             />
+            </div>
             ))
         )}
         </main>

@@ -1,22 +1,20 @@
 .App {
     color: black;
     background-color: rgb(229, 247, 247);
-    margin: 25px 0 0 25px;
-    padding-left:10%;
-    padding-top: 2%;
-    padding-bottom: 2%;
+    margin: 25px 25px 25px 25px;
+    padding:5% 5% 5% 5%;
   }
   
   .galleryheader {
-    width: 90% !important;
+    width: 100% !important;
+    display: inline-block;
     background-color: white;
     border: 1px solid #9d9b9b;
     border-radius: 5px;
   }
   .image-gallery {
     display: flex;
-    padding: 5% 5% 5% 5%;
-    margin: 10px;
+    margin: 5%;
     border-radius: 5px;
   }
 
